@@ -1,0 +1,15 @@
+name: Test Workflow
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags-ignore:
+      - *
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create aggregate tag env vars
+      run: echo "Running the test workflow step"
