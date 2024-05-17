@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Create aggregate tag env vars
-      run: echo "Running the test workflow step testing again and again and again"
+      run: echo "Running the test workflow step testing again and again and again and again"
