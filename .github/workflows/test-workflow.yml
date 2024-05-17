@@ -1,14 +1,13 @@
 name: Test Workflow
 
 on:
-  push:
-    branches:
-      - 'main'
-    tags-ignore:
-      - '*'
+  pull_request:
+    types:
+      - closed
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - name: Create aggregate tag env vars
