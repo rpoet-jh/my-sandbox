@@ -10,6 +10,12 @@ jobs:
   release:
     if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      RELEASE: test-release-24
     steps:
-    - name: Create aggregate tag env vars
-      run: echo "Running the test workflow step testing again and again and again and again"
+    - name: Release with asset
+      run: |
+        gh release create "$RELEASE" --repo=rpoet-jh/my-sandbox --generate-notes
+        echo hello world sbom > application.cdx.json
+        cp application.cdx.json my-test-$RELEASE-cyclonedx.json
+        gh release upload "$RELEASE" --repo=rpoet-jh/my-sandbox my-test-$RELEASE-cyclonedx.json
