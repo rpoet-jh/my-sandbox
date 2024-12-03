@@ -13,6 +13,7 @@ jobs:
       RELEASE: test-release-24
       GH_TOKEN: ${{ github.token }}
     steps:
+    - uses: actions/checkout@v4
     - name: Release with asset
       run: |
         gh release create "$RELEASE" --generate-notes
