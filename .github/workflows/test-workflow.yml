@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Release with asset
       run: |
-        gh release create "$RELEASE" --repo=rpoet-jh/my-sandbox --generate-notes
+        gh release create "$RELEASE" --generate-notes
         echo hello world sbom > application.cdx.json
         cp application.cdx.json my-test-$RELEASE-cyclonedx.json
-        gh release upload "$RELEASE" --repo=rpoet-jh/my-sandbox my-test-$RELEASE-cyclonedx.json
+        gh release upload "$RELEASE" my-test-$RELEASE-cyclonedx.json
