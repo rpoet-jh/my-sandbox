@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE: test-release-24
+      GH_TOKEN: ${{ github.token }}
     steps:
     - name: Release with asset
       run: |
