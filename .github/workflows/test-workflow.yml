@@ -1,23 +1,33 @@
 name: Test Workflow
 
 on:
-  pull_request:
-    types:
-      - closed
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  release:
-    permissions: write-all
+  Merge:
     runs-on: ubuntu-latest
+
     env:
-      RELEASE: test-release-24
-      GH_TOKEN: ${{ github.token }}
+      MAIN_BRANCH: main
+      DEVELOP_BRANCH: development
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Release with asset
-      run: |
-        gh release create "$RELEASE" --generate-notes
-        echo hello world sbom > application.cdx.json
-        cp application.cdx.json my-test-$RELEASE-cyclonedx.json
-        gh release upload "$RELEASE" my-test-$RELEASE-cyclonedx.json
+      - name: Checkout Develop ( ${{env.DEVELOP_BRANCH}} )
+        uses: actions/checkout@v4
+        with:
+          ref: ${{env.DEVELOP_BRANCH}}
+          fetch-depth: 0 # checkout the entire history
+
+      - name: Set Git credentials
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"          
+
+      - name: Execute production merge
+        run: |
+          git checkout $MAIN_BRANCH
+          git merge $DEVELOP_BRANCH
+          git push origin $MAIN_BRANCH       
